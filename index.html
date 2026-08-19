@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>eBay OAuth callback</title>
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    max-width: 44rem; margin: 4rem auto; padding: 0 1.25rem;
+  }
+  h1 { font-size: 1.35rem; margin: 0 0 .25rem; }
+  .sub { opacity: .65; margin: 0 0 2rem; font-size: .95rem; }
+  code, textarea {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  textarea {
+    width: 100%; min-height: 7.5rem; padding: .75rem; font-size: .8rem;
+    border: 1px solid rgba(128,128,128,.45); border-radius: 8px;
+    background: rgba(128,128,128,.07); resize: vertical; word-break: break-all;
+  }
+  button {
+    margin-top: .75rem; padding: .55rem 1rem; font-size: .95rem; cursor: pointer;
+    border: 1px solid rgba(128,128,128,.45); border-radius: 8px;
+    background: rgba(128,128,128,.12);
+  }
+  .ok   { color: #17803d; font-weight: 600; }
+  .bad  { color: #b3261e; font-weight: 600; }
+  .note { margin-top: 2rem; font-size: .9rem; opacity: .75; }
+  .note code { background: rgba(128,128,128,.14); padding: .1rem .3rem; border-radius: 4px; }
+</style>
+</head>
+<body>
+  <h1>eBay OAuth callback</h1>
+  <p class="sub" id="status">Reading the authorization code…</p>
+
+  <textarea id="out" readonly spellcheck="false"></textarea>
+  <button id="copy">Copy</button>
+
+  <p class="note">
+    Paste this into the prompt from <code>bin/ebay_api.py auth</code>.
+    The code is single-use and expires in a few minutes, so exchange it now.
+    Nothing on this page is sent anywhere — it only reads your address bar.
+  </p>
+
+<script>
+(function () {
+  var status = document.getElementById('status');
+  var out    = document.getElementById('out');
+
+  // eBay appends the grant as ?code=..., URL-encoded. Some flows also return
+  // ?error=access_denied when the consent screen is declined.
+  var q     = new URLSearchParams(window.location.search);
+  var code  = q.get('code');
+  var error = q.get('error');
+
+  if (code) {
+    status.innerHTML = '<span class="ok">Authorization code received.</span> '
+                     + 'Copy it below.';
+    // Hand over the full URL as well: ebay_api.py accepts either, and the whole
+    // URL is the safer paste when a code contains characters that look like
+    // separators.
+    out.value = window.location.href;
+  } else if (error) {
+    status.innerHTML = '<span class="bad">Consent was not granted:</span> '
+                     + error + (q.get('error_description')
+                                ? ' — ' + q.get('error_description') : '');
+    out.value = window.location.href;
+  } else {
+    status.innerHTML = 'No <code>code</code> parameter in this URL. '
+                     + 'Start from <code>bin/ebay_api.py auth</code>, accept the '
+                     + 'consent screen, and you will land back here.';
+    out.value = '';
+  }
+
+  document.getElementById('copy').addEventListener('click', function () {
+    if (!out.value) return;
+    out.select();
+    navigator.clipboard.writeText(out.value).then(function () {
+      var b = document.getElementById('copy');
+      b.textContent = 'Copied';
+      setTimeout(function () { b.textContent = 'Copy'; }, 1500);
+    }, function () {
+      document.execCommand('copy');   // older browsers
+    });
+  });
+})();
+</script>
+</body>
+</html>

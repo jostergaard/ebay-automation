@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy</title>
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    max-width: 42rem; margin: 3.5rem auto; padding: 0 1.25rem;
+  }
+  h1 { font-size: 1.5rem; margin-bottom: .25rem; }
+  h2 { font-size: 1.05rem; margin-top: 2rem; }
+  .updated { opacity: .6; font-size: .9rem; margin-top: 0; }
+  code { background: rgba(128,128,128,.15); padding: .1rem .3rem; border-radius: 4px; }
+</style>
+</head>
+<body>
+  <h1>Privacy Policy</h1>
+  <p class="updated">Last updated 19 August 2026</p>
+
+  <p>
+    This policy covers a set of private, single-user tools used by one eBay seller
+    to test and list used computer storage hardware. The tools are not a product,
+    are not offered to anyone else, and have no users other than their operator.
+  </p>
+
+  <h2>What this site does</h2>
+  <p>
+    This site hosts two static pages. One is an OAuth redirect target: after the
+    operator grants their own eBay account's authorization, eBay sends the browser
+    back here with a temporary <code>code</code> parameter in the address bar. The
+    page reads that value from the address bar and displays it so it can be copied
+    into a local command-line tool.
+  </p>
+  <p>
+    The page runs entirely in the browser. It has no server-side component, no
+    database, and no analytics. It does not transmit the authorization code, or
+    anything else, anywhere. It sets no cookies and uses no local storage.
+  </p>
+
+  <h2>What is collected</h2>
+  <p>
+    Nothing. This site collects, stores, and shares no personal information. There
+    is no contact form, no account, no tracking, and no advertising.
+  </p>
+  <p>
+    Because the pages are served by GitHub Pages, GitHub may log requests
+    (including IP addresses) as part of operating its own infrastructure. That
+    logging is GitHub's, not this site's, and is described in the
+    <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement">GitHub Privacy Statement</a>.
+  </p>
+
+  <h2>eBay data</h2>
+  <p>
+    The associated command-line tools access the operator's own eBay seller account
+    through the official eBay REST APIs, using credentials the operator issued to
+    themselves. Access tokens are stored only on the operator's own computer, in a
+    file readable only by that user account. No eBay data belonging to any other
+    person is requested, received, or stored, and no eBay data is shared with any
+    third party.
+  </p>
+  <p>
+    Buyer information arising from an ordinary sale is handled inside eBay's own
+    systems under eBay's policies. These tools do not export it.
+  </p>
+
+  <h2>Retention and deletion</h2>
+  <p>
+    Locally stored tokens can be revoked at any time from the operator's eBay
+    account security settings, and deleted by removing the local credential file.
+    There is nothing held on this site to delete.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Questions about this policy can be raised as an issue on the
+    <a href="https://github.com/jostergaard/ebay-automation">project repository</a>.
+  </p>
+</body>
+</html>
